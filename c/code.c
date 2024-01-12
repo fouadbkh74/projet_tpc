@@ -1,5 +1,7 @@
-#include "raylib.h"
+#define RAYGUI_IMPLEMENTATION
 
+#include "raylib.h"
+#include <raygui.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -10,8 +12,19 @@
 
 int main(){
 
-    printf("hello fouad raouf projet ");
+    const int l = 1000;
+    const int h = 800;
 
 
-    return 0;
-}
+    InitWindow(l,h,"test");
+
+
+    CloseWindow();
+
+
+
+
+
+
+
+return 0 ;}
