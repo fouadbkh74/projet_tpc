@@ -83,18 +83,19 @@ int main(void) {
     Rectangle buttonBounds3 = {30, 700, 120, 50};
 
     Rectangle rectangles[10];
+    Rectangle rectangles2[10];
     Rectangle textBox = {windowWidth / 2 - 200, 700, 100, 50};
     bool mouseOnText = false;
     bool editMode = false;
     char inputText[3] = "\0"; // Pour un entier décimal
-    int i;
+    int i,j;
 
     vecteur v, y;
-    int  l;
 
     Rectangle textBox1 = {windowWidth / 2 - 10, 700, 400, 50};
     bool mouseOnText1 = false;
     bool editMode1 = false;
+    bool trv=false;
     char inputText1[MAX_INPUT_CHARS1 + 1] = "\0"; // +1 for the null terminator
 
     int numbers1[NUMBERS_COUNT1];  // Tableau pour stocker les nombres saisis
@@ -202,14 +203,19 @@ int main(void) {
             }
         }
 
+        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), buttonBounds2)) {
+            for (j = 0; j < cpt1; j++) {
+                rectangles2[j] = (Rectangle){(j * 70)+400, 450, 70, 70};
+                trv=true;
+            }
+        }
+
         // Gestion du bouton Entre
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && CheckCollisionPointRec(GetMousePosition(), buttonBounds1)) {
             y = trie(v);
             affich(y);
 
             // Libérer la mémoire allouée pour les vecteurs v.t et y.t
-            free(v.t);
-            free(y.t);
 
             printf("Bouton Entre appuyé!\n");
         }
@@ -235,8 +241,8 @@ int main(void) {
         DrawRectangleLinesEx((Rectangle){10, 10, 160, 770}, 4, BLUE);
         DrawRectangleLinesEx((Rectangle){300, 150, 650, 500}, 4, BLUE);
 
-        DrawButtonWithText(buttonBounds1, "Trie", 30, CheckCollisionPointRec(GetMousePosition(), buttonBounds1));
-        DrawButtonWithText(buttonBounds2, "Entre", 30, CheckCollisionPointRec(GetMousePosition(), buttonBounds2));
+        DrawButtonWithText(buttonBounds1, "Trier", 30, CheckCollisionPointRec(GetMousePosition(), buttonBounds1));
+        DrawButtonWithText(buttonBounds2, "Afficher", 30, CheckCollisionPointRec(GetMousePosition(), buttonBounds2));
         DrawButtonWithText(buttonBounds3, "Exit", 30, CheckCollisionPointRec(GetMousePosition(), buttonBounds3));
 
         DrawText("N=", windowWidth / 2 - 240, 710, 30, BLACK);
@@ -263,12 +269,24 @@ int main(void) {
             DrawText(TextFormat("%d", numbers1[i]), windowWidth / 2 - 90 + i * 70, 370, 30, BLACK);
         }
 
-        DrawText(TextFormat("Nombre de saisies: %d", cpt1), windowWidth / 2 - 170, 500, 30, BLACK);
+        DrawText(TextFormat("Nombre de saisies: %d", cpt1), windowWidth / 2 - 170, 600, 30, BLACK);
 
         // Dessiner les rectangles créés en appuyant sur le bouton Entrer
         for (i = 0; i < cpt1; i++) {
             DrawRectangleLinesEx(rectangles[i], 4, BLACK);
         }
+
+if(trv){
+        for (j = 0; j< cpt1; j++) {
+            DrawRectangleLinesEx(rectangles2[j], 4, BLACK);
+
+        }
+        for ( j = 0; j < cpt1; j++) {
+            DrawText(TextFormat("%d", y.t[j]), windowWidth / 2 - 90 + j * 70, 470, 30, BLACK);
+        }
+
+}
+
 if (exitWindowRequested)
             {
                 DrawRectangle(0, 200, windowWidth, 200, BLACK);
